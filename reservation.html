@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}テーブル予約 | 世界のごちそう{% endblock %}
+
+{% block content %}
+<section class="page-title reservation-heading" aria-labelledby="reservation-title">
+    <span class="eyebrow">SAVE YOUR SEAT</span>
+    <h1 id="reservation-title">テーブル予約</h1>
+    <p>ご希望の日時をお知らせください。お会いできるのを楽しみにしています。</p>
+</section>
+
+<section class="reservation-layout" aria-label="予約フォーム">
+    <form class="form reservation-form" method="post">
+        {% csrf_token %}
+        <div class="reservation-form-heading">
+            <span class="eyebrow">YOUR VISIT</span>
+            <h2>ご予約内容</h2>
+            <p><span class="required-mark">必須</span> の項目は必ずご入力ください。</p>
+        </div>
+
+        <div class="two-col">
+            <label for="reservation-name">お名前 <span class="required-mark">必須</span>
+                <input id="reservation-name" name="customer_name" autocomplete="name" maxlength="100" required>
+            </label>
+            <label for="reservation-email">メールアドレス <span class="required-mark">必須</span>
+                <input id="reservation-email" type="email" name="email" autocomplete="email" maxlength="254" required>
+            </label>
+            <label for="reservation-phone">電話番号 <span class="required-mark">必須</span>
+                <input id="reservation-phone" type="tel" name="phone" autocomplete="tel" maxlength="30" required>
+            </label>
+            <label for="reservation-guests">ご利用人数 <span class="required-mark">必須</span>
+                <input id="reservation-guests" type="number" name="guests" min="1" max="30" value="2" required>
+            </label>
+            <label for="reservation-date">ご希望の日付 <span class="required-mark">必須</span>
+                <input id="reservation-date" type="date" name="reservation_date" min="{% now 'Y-m-d' %}" required>
+            </label>
+            <label for="reservation-time">ご希望の時間 <span class="required-mark">必須</span>
+                <input id="reservation-time" type="time" name="reservation_time" required>
+            </label>
+        </div>
+
+        <label for="reservation-requests">ご要望 <span class="optional-mark">任意</span>
+            <textarea id="reservation-requests" name="requests" rows="4" placeholder="アレルギーやご相談などがあればご記入ください。"></textarea>
+        </label>
+        <button class="btn reservation-submit" type="submit">予約を申し込む <span aria-hidden="true">→</span></button>
+    </form>
+
+    <aside class="reservation-aside">
+        <div class="reservation-aside-icon" aria-hidden="true">🍽️</div>
+        <span class="eyebrow">A TABLE FOR YOU</span>
+        <h2>大切な人との食事に。</h2>
+        <p>ご予約内容を確認のうえ、店舗からご連絡いたします。ご希望に添えない場合は、別の日時をご相談させていただくことがあります。</p>
+        <a href="{% url 'menu' %}">メニューを見る <span aria-hidden="true">→</span></a>
+    </aside>
+</section>
+{% endblock %}

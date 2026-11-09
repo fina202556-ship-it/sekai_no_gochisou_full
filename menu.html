@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}メニュー | 世界のごちそう{% endblock %}
+
+{% block content %}
+<section class="page-title menu-heading" aria-labelledby="menu-title">
+    <span class="eyebrow">A WORLD OF FLAVOUR</span>
+    <h1 id="menu-title">世界のメニュー</h1>
+    <p>気になる国の味を見つけて、今日の食卓に小さな旅を。</p>
+</section>
+
+<nav class="filters menu-filters" aria-label="料理カテゴリー">
+    <a class="{% if not selected_category %}is-selected{% endif %}" href="{% url 'menu' %}"{% if not selected_category %} aria-current="page"{% endif %}>すべて</a>
+    <a class="{% if selected_category == 'nepali' %}is-selected{% endif %}" href="{% url 'menu' %}?category=nepali"{% if selected_category == 'nepali' %} aria-current="page"{% endif %}>ネパール料理</a>
+    <a class="{% if selected_category == 'japanese' %}is-selected{% endif %}" href="{% url 'menu' %}?category=japanese"{% if selected_category == 'japanese' %} aria-current="page"{% endif %}>日本料理</a>
+    <a class="{% if selected_category == 'indian' %}is-selected{% endif %}" href="{% url 'menu' %}?category=indian"{% if selected_category == 'indian' %} aria-current="page"{% endif %}>インド料理</a>
+    <a class="{% if selected_category == 'other' %}is-selected{% endif %}" href="{% url 'menu' %}?category=other"{% if selected_category == 'other' %} aria-current="page"{% endif %}>その他</a>
+</nav>
+
+<section class="section menu-section" aria-label="料理一覧">
+    <div class="grid">
+        {% for food in foods %}
+        <article class="food menu-food">
+            {% if food.image %}
+                <img src="{{ food.image.url }}" alt="{{ food.name }}" loading="lazy">
+            {% else %}
+                <div class="menu-food-placeholder" aria-hidden="true">
+                    {% if food.category == "nepali" %}🥘{% elif food.category == "japanese" %}🍱{% elif food.category == "indian" %}🍛{% else %}🍽️{% endif %}
+                </div>
+            {% endif %}
+            <div class="food-body">
+                <small>{{ food.get_category_display }}</small>
+                <h2>{{ food.name }}</h2>
+                <p>{{ food.description|default:"世界の味わいをお楽しみください。" }}</p>
+                <div class="food-bottom">
+                    <b>¥{{ food.price }}</b>
+                    <form method="post" action="{% url 'add_to_cart' food.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{% url 'menu' %}">
+                        <button class="plus" type="submit"><span aria-hidden="true">＋</span> カートに追加</button>
+                    </form>
+                </div>
+            </div>
+        </article>
+        {% empty %}
+        <div class="menu-empty">
+            <span aria-hidden="true">🍽️</span>
+            <h2>このカテゴリーの料理は準備中です</h2>
+            <p>別のカテゴリーもぜひご覧ください。</p>
+            {% if selected_category %}
+                <a class="btn outline" href="{% url 'menu' %}">すべての料理を見る</a>
+            {% else %}
+                <p class="menu-empty-admin">おすすめ料理を準備中です。どうぞまたご覧ください。</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

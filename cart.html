@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}ショッピングカート | 世界のごちそう{% endblock %}
+
+{% block content %}
+<section class="page-title cart-heading" aria-labelledby="cart-title">
+    <span class="eyebrow">YOUR SELECTION</span>
+    <h1 id="cart-title">ショッピングカート</h1>
+    <p>お選びいただいた料理をご確認ください。</p>
+</section>
+
+{% if items %}
+<section class="cart-layout" aria-label="カートの内容">
+    <div class="cart-main">
+        <div class="cart-list-heading">
+            <h2>カートの料理</h2>
+            <a href="{% url 'menu' %}">メニューに戻る <span aria-hidden="true">→</span></a>
+        </div>
+
+        <div class="cart-items">
+            {% for item in items %}
+            <article class="cart-item">
+                {% if item.food.image %}
+                    <img class="cart-item-image" src="{{ item.food.image.url }}" alt="{{ item.food.name }}">
+                {% else %}
+                    <div class="cart-item-placeholder" aria-hidden="true">🍽️</div>
+                {% endif %}
+
+                <div class="cart-item-details">
+                    <span class="cart-item-label">WORLD OF FLAVOUR</span>
+                    <h3>{{ item.food.name }}</h3>
+                    <p class="cart-item-price">¥{{ item.food.price }} <span>／ 1品</span></p>
+                </div>
+
+                <div class="cart-item-quantity">
+                    <span>数量</span>
+                    <strong>{{ item.quantity }}</strong>
+                </div>
+
+                <div class="cart-item-subtotal">
+                    <span>小計</span>
+                    <strong>¥{{ item.subtotal }}</strong>
+                </div>
+
+                <form class="cart-remove-form" method="post" action="{% url 'remove_from_cart' item.food.id %}">
+                    {% csrf_token %}
+                    <button class="cart-remove" type="submit" aria-label="{{ item.food.name }}をカートから削除">
+                        <span aria-hidden="true">×</span>
+                        <span>削除</span>
+                    </button>
+                </form>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+
+    <aside class="cart-summary" aria-labelledby="cart-summary-title">
+        <span class="eyebrow">ORDER SUMMARY</span>
+        <h2 id="cart-summary-title">ご注文内容</h2>
+        <div class="cart-summary-line">
+            <span>商品合計</span>
+            <strong>¥{{ total }}</strong>
+        </div>
+        <p class="cart-shipping-note">送料などの詳細は、注文時にご確認ください。</p>
+        <div class="cart-summary-total">
+            <span>合計</span>
+            <strong>¥{{ total }}</strong>
+        </div>
+        <a class="btn cart-checkout" href="{% url 'place_order' %}">
+            注文手続きへ進む <span aria-hidden="true">→</span>
+        </a>
+        <a class="cart-continue" href="{% url 'menu' %}">メニューを見てみる</a>
+        <p class="cart-demo-note">このサイトはデモ用です。オンライン決済には対応していません。</p>
+    </aside>
+</section>
+{% else %}
+<section class="cart-empty" aria-labelledby="cart-empty-title">
+    <div class="cart-empty-icon" aria-hidden="true">🛒</div>
+    <span class="eyebrow">A LITTLE MORE FLAVOUR?</span>
+    <h2 id="cart-empty-title">カートはまだ空です</h2>
+    <p>気になる料理を見つけて、最初のひと品を追加しましょう。</p>
+    <a class="btn" href="{% url 'menu' %}">メニューを見る <span aria-hidden="true">→</span></a>
+</section>
+{% endif %}
+{% endblock %}

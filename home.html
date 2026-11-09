@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}世界のごちそう | 世界の味を、ひと皿から{% endblock %}
+
+{% block content %}
+<section class="hero home-hero" aria-labelledby="home-title">
+    <div class="home-hero-copy">
+        <span class="eyebrow">A WORLD OF FLAVOUR</span>
+        <h1 id="home-title">ひと皿から、<br><em>世界を旅しよう。</em></h1>
+        <p>まだ知らないおいしさとの出会いを。世界の料理を囲む、心はずむひとときをお楽しみください。</p>
+        <div class="home-hero-actions">
+            <a class="home-primary-link" href="{% url 'menu' %}">料理を見てみる <span aria-hidden="true">→</span></a>
+            <a class="home-secondary-link" href="{% url 'about' %}">私たちについて</a>
+        </div>
+        <div class="home-hero-note"><span aria-hidden="true">✦</span> あなたのお気に入りの一皿を見つけよう</div>
+    </div>
+</section>
+
+<section class="home-highlights" aria-label="レストランの楽しみ">
+    <div class="home-highlight">
+        <span class="home-highlight-icon" aria-hidden="true">🌍</span>
+        <span><strong>世界の料理</strong><small>多彩な味わいとの出会い</small></span>
+    </div>
+    <div class="home-highlight">
+        <span class="home-highlight-icon" aria-hidden="true">🥢</span>
+        <span><strong>お気に入りを発見</strong><small>気になる一品をチェック</small></span>
+    </div>
+    <div class="home-highlight">
+        <span class="home-highlight-icon" aria-hidden="true">♡</span>
+        <span><strong>食卓に楽しい時間を</strong><small>大切な人と囲むひととき</small></span>
+    </div>
+</section>
+
+<section class="home-menu-section" aria-labelledby="home-menu-title">
+    <div class="home-section-heading">
+        <div>
+            <span class="eyebrow">MADE FOR YOUR NEXT CRAVING</span>
+            <h2 id="home-menu-title">おすすめの料理</h2>
+            <p>気になる料理を見つけてみてください。</p>
+        </div>
+        <a class="home-all-menu" href="{% url 'menu' %}">すべてのメニュー <span aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="home-food-grid">
+        {% for food in foods %}
+        <article class="home-food-card">
+            <a class="home-food-image-link" href="{% url 'menu' %}" aria-label="{{ food.name }}を含むメニューを見る">
+                {% if food.image %}
+                    <img class="home-food-image" src="{{ food.image.url }}" alt="{{ food.name }}" loading="lazy">
+                {% else %}
+                    <div class="home-food-placeholder" aria-hidden="true">
+                        {% if food.category == "nepali" %}🥘{% elif food.category == "japanese" %}🍱{% elif food.category == "indian" %}🍛{% else %}🍽️{% endif %}
+                    </div>
+                {% endif %}
+                <span class="home-food-category">{{ food.get_category_display }}</span>
+            </a>
+            <div class="home-food-content">
+                <h3>{{ food.name }}</h3>
+                <p>{{ food.description|default:"世界の味わいをお楽しみください。"|truncatechars:90 }}</p>
+                <div class="home-food-footer">
+                    <strong>¥{{ food.price }}</strong>
+                    <form method="post" action="{% url 'add_to_cart' food.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{% url 'home' %}">
+                        <button class="home-add-button" type="submit" aria-label="{{ food.name }}をカートに追加">
+                            <span aria-hidden="true">＋</span> カートに追加
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </article>
+        {% empty %}
+        <div class="home-menu-empty">
+            <span aria-hidden="true">🍽️</span>
+            <h3>おすすめ料理を準備中です</h3>
+            <p>メニューはただいま準備中です。ぜひまたご覧ください。</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="home-visit" aria-labelledby="home-visit-title">
+    <div class="home-visit-mark" aria-hidden="true">🌏</div>
+    <div class="home-visit-copy">
+        <span class="eyebrow">COME TO THE TABLE</span>
+        <h2 id="home-visit-title">次のお食事を、ここから。</h2>
+        <p>メニューを眺めたり、ご来店の予約をしたり。次の楽しみを見つけてください。</p>
+    </div>
+    <div class="home-visit-actions">
+        <a class="btn light" href="{% url 'reservation' %}">テーブルを予約する <span aria-hidden="true">→</span></a>
+        <a class="home-visit-link" href="{% url 'location' %}">アクセスを見る</a>
+    </div>
+</section>
+{% endblock %}

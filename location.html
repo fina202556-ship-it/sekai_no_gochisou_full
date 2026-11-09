@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}アクセス | 世界のごちそう{% endblock %}
+
+{% block content %}
+<section class="page-title location-heading" aria-labelledby="location-title">
+    <span class="eyebrow">FIND YOUR WAY</span>
+    <h1 id="location-title">アクセス</h1>
+    <p>ご来店の際は、地図とアクセス情報をご確認ください。</p>
+</section>
+
+<section class="location location-page" aria-label="店舗所在地と地図">
+    <div class="location-details">
+        <span class="eyebrow">COME VISIT US</span>
+        <h2>世界のごちそう</h2>
+        <p class="location-intro">世界の料理を囲むひとときを、どうぞお楽しみください。</p>
+
+        <div class="location-notice">
+            <span aria-hidden="true">ⓘ</span>
+            <p>地図は大阪駅付近のサンプル位置を表示しています。実際の店舗情報ではありません。</p>
+        </div>
+
+        <a
+            id="directions"
+            class="btn"
+            href="https://www.google.com/maps/dir/?api=1&amp;destination=34.7025,135.4959"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Google Mapsで道順を見る <span aria-hidden="true">↗</span>
+        </a>
+        <a class="location-menu-link" href="{% url 'reservation' %}">テーブルを予約する <span aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="location-map-frame">
+        <iframe
+            id="map"
+            title="大阪駅付近のサンプル位置を示す地図"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=135.4759%2C34.6925%2C135.5159%2C34.7125&amp;layer=mapnik&amp;marker=34.7025%2C135.4959"
+            loading="eager"
+        ></iframe>
+        <span class="location-map-caption"><span aria-hidden="true">●</span> サンプル位置 · 大阪駅付近</span>
+    </div>
+</section>
+{% endblock %}

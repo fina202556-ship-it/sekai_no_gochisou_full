@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}お店について | 世界のごちそう{% endblock %}
+
+{% block content %}
+<section class="page-title about-heading" aria-labelledby="about-page-title">
+    <span class="eyebrow">OUR STORY</span>
+    <h1 id="about-page-title">お店について</h1>
+    <p>ひと皿から、世界とつながる食体験を。</p>
+</section>
+
+<section class="about-story" aria-labelledby="about-story-title">
+    <div class="about-story-copy">
+        <span class="eyebrow">A TABLE WITHOUT BORDERS</span>
+        <h2 id="about-story-title">世界の味を、<br>もっと身近に。</h2>
+        <p>
+            世界のごちそうは、さまざまな国の料理との出会いを楽しむレストランです。
+            まだ知らない味に出会うわくわくも、誰かと食卓を囲むよろこびも、
+            ひと皿から広がっていく。そんな時間をお届けしたいと考えています。
+        </p>
+        <div class="about-story-actions">
+            <a class="btn" href="{% url 'menu' %}">メニューを見る</a>
+            <a class="btn outline" href="{% url 'location' %}">アクセスを確認</a>
+        </div>
+    </div>
+
+    <div class="about-art" aria-hidden="true">
+        <span class="about-art-orbit about-art-orbit-one"></span>
+        <span class="about-art-orbit about-art-orbit-two"></span>
+        <span class="about-art-sun"></span>
+        <span class="about-art-globe">🌏</span>
+        <span class="about-art-caption">A WORLD OF FLAVOUR</span>
+    </div>
+</section>
+
+<section class="about-values" aria-labelledby="about-values-title">
+    <div class="about-values-heading">
+        <span class="eyebrow">WHAT WE BELIEVE</span>
+        <h2 id="about-values-title">食卓から広がる、3つの楽しみ</h2>
+        <p>おいしい料理を囲む時間を、もっと豊かに。</p>
+    </div>
+
+    <div class="about-values-grid">
+        <article class="about-value">
+            <span class="about-value-icon" aria-hidden="true">🥘</span>
+            <span class="about-value-number">01</span>
+            <h3>新しい味に出会う</h3>
+            <p>いつもの食事に、世界の料理を楽しむ小さな冒険を加えます。</p>
+        </article>
+        <article class="about-value">
+            <span class="about-value-icon" aria-hidden="true">🌍</span>
+            <span class="about-value-number">02</span>
+            <h3>文化を味わう</h3>
+            <p>料理をきっかけに、地域ごとの食文化や味わいに触れます。</p>
+        </article>
+        <article class="about-value">
+            <span class="about-value-icon" aria-hidden="true">🍽️</span>
+            <span class="about-value-number">03</span>
+            <h3>一緒に楽しむ</h3>
+            <p>家族や友人と囲む食卓に、会話が弾むひとときをお届けします。</p>
+        </article>
+    </div>
+</section>
+
+<section class="about-visit" aria-labelledby="about-visit-title">
+    <div>
+        <span class="eyebrow">YOUR NEXT DELICIOUS DISCOVERY</span>
+        <h2 id="about-visit-title">次のお気に入りを、見つけませんか？</h2>
+        <p>世界のごちそうで、気になるひと皿を探してみてください。</p>
+    </div>
+    <a class="btn light" href="{% url 'menu' %}">料理を見てみる <span aria-hidden="true">→</span></a>
+</section>
+{% endblock %}

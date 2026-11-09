@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}ご注文手続き | 世界のごちそう{% endblock %}
+
+{% block content %}
+<section class="page-title order-heading" aria-labelledby="order-title">
+    <span class="eyebrow">ALMOST READY</span>
+    <h1 id="order-title">ご注文手続き</h1>
+    <p>お届け先の情報をご入力ください。</p>
+</section>
+
+<section class="checkout-layout" aria-label="ご注文手続き">
+    <form class="form checkout-form" method="post">
+        {% csrf_token %}
+        <div class="checkout-form-heading">
+            <span class="checkout-step">01</span>
+            <div>
+                <h2>お客様情報</h2>
+                <p>ご注文の確認に必要な情報です。</p>
+            </div>
+        </div>
+
+        <label for="order-customer-name">お名前 <span class="required-mark">必須</span>
+            <input id="order-customer-name" name="customer_name" autocomplete="name" maxlength="100" required>
+        </label>
+        <label for="order-email">メールアドレス <span class="required-mark">必須</span>
+            <input id="order-email" type="email" name="email" autocomplete="email" maxlength="254" required>
+        </label>
+        <label for="order-phone">電話番号 <span class="optional-mark">任意</span>
+            <input id="order-phone" type="tel" name="phone" autocomplete="tel" maxlength="30">
+        </label>
+        <label for="order-address">住所 <span class="optional-mark">任意</span>
+            <input id="order-address" name="address" autocomplete="street-address" maxlength="250">
+        </label>
+
+        <button class="btn checkout-submit" type="submit">注文を確定する <span aria-hidden="true">→</span></button>
+        <a class="checkout-back" href="{% url 'cart' %}">カートに戻る</a>
+    </form>
+
+    <aside class="checkout-summary" aria-labelledby="checkout-summary-title">
+        <span class="eyebrow">YOUR ORDER</span>
+        <h2 id="checkout-summary-title">ご注文内容</h2>
+        <div class="checkout-lines">
+            {% for line in lines %}
+                <p>{{ line }}</p>
+            {% endfor %}
+        </div>
+        <div class="checkout-total">
+            <span>合計</span>
+            <strong>¥{{ total }}</strong>
+        </div>
+        <div class="checkout-demo-note">
+            <span aria-hidden="true">ⓘ</span>
+            <p>このサイトはデモ用です。注文情報は店舗の確認用に保存され、オンライン決済には対応していません。</p>
+        </div>
+    </aside>
+</section>
+{% endblock %}

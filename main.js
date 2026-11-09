@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll("form").forEach(form=>form.addEventListener("submit",()=>{const b=form.querySelector('button[type="submit"]');if(b){b.disabled=true;b.dataset.label=b.textContent;b.textContent="送信中...";setTimeout(()=>{b.disabled=false;b.textContent=b.dataset.label},2500)}}))});
